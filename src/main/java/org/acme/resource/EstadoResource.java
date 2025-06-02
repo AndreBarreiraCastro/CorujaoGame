@@ -5,6 +5,7 @@ import java.util.List;
 import org.acme.dto.EstadoDTO;
 import org.acme.dto.EstadoResponseDTO;
 import org.acme.model.Estado;
+import org.acme.repository.EstadoRepository;
 import org.acme.service.Estadoservice;
 
 import io.minio.credentials.AssumeRoleBaseProvider.Response;
@@ -29,6 +30,8 @@ import jakarta.ws.rs.DefaultValue;
 public class EstadoResource {
     @Inject
     Estadoservice estadoService;
+    @Inject
+    EstadoRepository repository;
 
     @POST
     public EstadoResponseDTO incluir(@Valid EstadoDTO dto) {
@@ -47,12 +50,12 @@ public class EstadoResource {
        estadoService.deletar(id);
     }
 
-    @GET
-    @Path("/nome/{nome}")
-    @Transactional
-    public EstadoResponseDTO procurarEstado(@PathParam("nome") String nome) {
-     return  estadoService.procurarNome(nome);
-    }
+    // @GET
+    // @Path("/nome/{nome}")
+    // @Transactional
+    // public EstadoResponseDTO procurarEstado(@PathParam("nome") String nome) {
+    //  return  estadoService.procurarNome(nome);
+    // }
     @GET
     @Path("/id/{id}")
     public EstadoResponseDTO procurarEstadoId(@PathParam("id") Long id) {
@@ -63,6 +66,18 @@ public class EstadoResource {
     public List<Estado> procuraTodos(@QueryParam("page") @DefaultValue("0") int page,@QueryParam("page_size") @DefaultValue("100") int pageSize) { 
         return estadoService.procurartodos(page, pageSize);
     }
+@GET
+@Path("/buscar/{nome}")
+@Produces(MediaType.APPLICATION_JSON)
+public List<Estado> buscarPorNome(@PathParam("nome") String nome) {
+    return repository.find("nome like ?1", "%" + nome + "%").list();
+}
+
+@GET
+@Path("/count")
+public Long countEstados() {
+    return estadoService.count();
+}
 
 }
 
