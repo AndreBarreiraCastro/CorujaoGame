@@ -1,9 +1,7 @@
 package org.acme.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.acme.dto.EstadoDTO;
 import org.acme.dto.MunicipioDTO;
 import org.acme.dto.MunicipioResponseDTO;
 import org.acme.model.Estado;
@@ -11,12 +9,13 @@ import org.acme.model.Municipio;
 import org.acme.repository.EstadoRepository;
 import org.acme.repository.MunicipioRepository;
 
-import com.arjuna.ats.internal.jdbc.drivers.modifiers.list;
-
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.core.Response;
 @ApplicationScoped
 public class MunicipioImpl implements MunicipioService {
 
@@ -24,17 +23,18 @@ public class MunicipioImpl implements MunicipioService {
     @Inject EstadoRepository estadorepository;
 
     @Override
-    public MunicipioResponseDTO inserir(MunicipioDTO municipio) {
+    public Response inserir(@Valid MunicipioDTO municipio) {
         Municipio novoMunicipio = new Municipio();
         novoMunicipio.setNome(municipio.getNome());
         novoMunicipio.setSigla(municipio.getSigla());
         novoMunicipio.setEstadoMunicipio(estadorepository.findById(municipio.getEstadoMunicipio()));
         repository.persist(novoMunicipio);
-        return MunicipioResponseDTO.valueOf(novoMunicipio);
+        return Response.status(Response.Status.CREATED)
+        .entity(MunicipioResponseDTO.valueOf(novoMunicipio)).build();
     }
 
     @Override
-    public MunicipioResponseDTO alterar(Long id, MunicipioDTO municipioDTO) {
+    public Response alterar(Long id, MunicipioDTO municipioDTO) {
         Municipio municipioAlterado = new Municipio();
         municipioAlterado = repository.findById(id);
         if(municipioAlterado.getNome()!= municipioDTO.getNome() && municipioDTO.getNome()!=null){
@@ -46,7 +46,7 @@ public class MunicipioImpl implements MunicipioService {
         if(municipioAlterado.getEstadoMunicipio().getId()!=municipioDTO.getEstadoMunicipio() && municipioDTO.getEstadoMunicipio()!=null){
             municipioAlterado.setEstadoMunicipio(estadorepository.findById(municipioDTO.getEstadoMunicipio()));
         }
-        return MunicipioResponseDTO.valueOf(municipioAlterado);
+        return Response.ok().entity(MunicipioResponseDTO.valueOf(municipioAlterado)).build();
     }
 
 @Override
@@ -64,8 +64,9 @@ public MunicipioResponseDTO procurarMunicipio(Long id) {
 
 
     @Override
-    public void deletar(Long id) {
+    public Response deletar(Long id) {
         repository.delete(repository.findById(id));
+       return Response.ok().build();
     }
 
     @Override
@@ -73,13 +74,22 @@ public MunicipioResponseDTO procurarMunicipio(Long id) {
     public MunicipioResponseDTO procurarNome(String nome) {
         return MunicipioResponseDTO.valueOf(repository.findByNome(nome));
     }
-
-    @Override
-    public List<Municipio> procurartodos() {
-
-        return repository.listAll();
-
     
+ @Override
+    public List<Municipio> procurartodos(Integer page, Integer pageSize) {
+        PanacheQuery<Municipio> query = null;
+        if (page == null || pageSize == null)
+            query = repository.findAll();
+        else 
+            query = repository.findAll().page(page, pageSize);
+
+        return query.list();
     }
+
+ @Override
+ public long count() {
+   return repository.findAll().count();
+ }
+
     
 }

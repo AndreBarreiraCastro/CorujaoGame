@@ -9,6 +9,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 
 
 @Entity
@@ -50,5 +52,5 @@ public class Municipio {
     public void setEstadoMunicipio(Estado estadoMunicipio) {
         this.estadoMunicipio = estadoMunicipio;
     }
-    
+
 }

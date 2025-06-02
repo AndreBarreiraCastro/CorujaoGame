@@ -1,18 +1,18 @@
 package org.acme.dto;
 
-import org.acme.model.Estado;
+import com.fasterxml.jackson.annotation.JsonCreator;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public final class MunicipioDTO {
-    @NotNull
+    @NotBlank(message = "Nome nao pode ser nulo")
     @Size(max = 133,message= "Ultrapassou o tamanho para o campo nome")
     private final String nome;
-    @NotNull
+    @NotBlank(message = "Sigla nao pode ser nulo")
     @Size(max = 2,message= "Ultrapassou o tamanho para o campo sigla")
     private final String sigla;
-    @NotNull
+    @NotBlank(message = "Estado nao pode ser nulo")
     @Size(max = 2,message= "Ultrapassou o tamanho para o campo sigla")
     private final Long estadoMunicipio;
     

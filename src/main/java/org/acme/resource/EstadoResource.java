@@ -6,6 +6,8 @@ import org.acme.dto.EstadoDTO;
 import org.acme.dto.EstadoResponseDTO;
 import org.acme.model.Estado;
 import org.acme.service.Estadoservice;
+
+import io.minio.credentials.AssumeRoleBaseProvider.Response;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -18,6 +20,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.DefaultValue;
 @Path("/estados")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -32,13 +36,13 @@ public class EstadoResource {
     }
 
     @PUT
-    @Path("/{id}")
-    public void alterar(@PathParam("id") Long id, EstadoDTO estado) {
+    @Path("/alterar/{id}")
+    public void alterar(@PathParam("id") Long id,Estado estado) {
         estadoService.alterar(id,estado);
     }
 
     @DELETE
-    @Path("/deletar/{id}")
+    @Path("/apagar/{id}")
     public void apagar(@PathParam("id")Long id) {
        estadoService.deletar(id);
     }
@@ -56,9 +60,9 @@ public class EstadoResource {
     }
     
     @GET
-     @Path("/procura todos")
-    public List<Estado> procuraTodos() {
-    return  estadoService.procurartodos();
+    public List<Estado> procuraTodos(@QueryParam("page") @DefaultValue("0") int page,@QueryParam("page_size") @DefaultValue("100") int pageSize) { 
+        return estadoService.procurartodos(page, pageSize);
     }
+
 }
 

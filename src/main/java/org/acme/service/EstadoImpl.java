@@ -11,6 +11,9 @@ import org.acme.model.Estado;
 import org.acme.model.Estado;
 import org.acme.model.Estado;
 import org.acme.repository.EstadoRepository;
+
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
+
 import org.acme.repository.EstadoRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -31,15 +34,12 @@ public class EstadoImpl implements Estadoservice {
     }
 
     @Override
-    public EstadoResponseDTO alterar(Long id, EstadoDTO estado) {
+    public EstadoResponseDTO alterar(Long id,Estado estado) {
         Estado novoEstado = repository.findById(id);
 
-                if(novoEstado.getNome()!= estado.getNome() && estado.getNome()!=null){
+                
             novoEstado.setNome(estado.getNome());
-        }
-        if(novoEstado.getSigla()!=estado.getSigla() && estado.getSigla()!=null){
             novoEstado.setSigla(estado.getSigla());
-        }
        return EstadoResponseDTO.valueOf(novoEstado);
     }
 
@@ -66,8 +66,19 @@ public class EstadoImpl implements Estadoservice {
     }
 
     @Override
-    public List<Estado> procurartodos() {
-        return repository.listAll();
+    public List<Estado> procurartodos(Integer page, Integer pageSize) {
+        PanacheQuery<Estado> query = null;
+        if (page == null || pageSize == null)
+            query = repository.findAll();
+        else 
+            query = repository.findAll().page(page, pageSize);
+
+        return query.list();
+    }
+
+    @Override
+    public long count() {
+return repository.findAll().count();
     }
    
 }

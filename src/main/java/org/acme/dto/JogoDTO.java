@@ -4,14 +4,14 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public final class JogoDTO {
-    @NotNull
+    @NotNull(message = "Nome nao pode ser nulo")
     @Size(max = 133,message= "Ultrapassou o tamanho para o campo nome")
     private final String nome;
-    @NotNull
+    @NotNull(message = "Quantidade nao pode ser nulo ou negativo")
     @Size(max = 2,message= "Ultrapassou o tamanho para o campo quantidade")
     private final int quantidade;
     
-    @NotNull
+    @NotNull(message = "Genero do jogo nao pode ser nulo")
     @Size(max = 2,message= "Ultrapassou o tamanho para o campo quantidade")
     private final Long generoJogo;
     

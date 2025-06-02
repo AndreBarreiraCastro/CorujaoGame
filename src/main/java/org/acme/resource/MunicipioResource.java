@@ -1,29 +1,20 @@
 package org.acme.resource;
 
-import java.io.IOException;
 import java.util.List;
 
-import org.acme.dto.EstadoDTO;
 import org.acme.dto.MunicipioDTO;
 import org.acme.dto.MunicipioResponseDTO;
-import org.acme.form.UsuarioImageForm;
 import org.acme.model.Estado;
 import org.acme.model.Municipio;
-import org.acme.model.Usuario;
-import org.acme.service.MinIOService;
 import org.acme.service.MunicipioService;
-import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
-
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.Status;
-import io.vertx.core.cli.annotations.DefaultValue;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
-import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -40,20 +31,21 @@ public class MunicipioResource {
     MunicipioService municipioService;
 
     @POST
-    public MunicipioResponseDTO incluir(@Valid MunicipioDTO dto) {
-        return municipioService.inserir(dto);
+    public Response incluir(@Valid MunicipioDTO dto) {
+       return municipioService.inserir(dto); 
     }
 
     @PUT
     @Path("/{id}")
-    public void alterar(@PathParam("id") Long id, MunicipioDTO municipio) {
-        municipioService.alterar(id,municipio);
+    public Response alterar( @PathParam("id") Long id,@Valid MunicipioDTO municipio) {
+        return municipioService.alterar(id,municipio);
+        
     }
 
     @DELETE
     @Path("/{id}")
-    public void apagar(@PathParam("id")Long id) {
-       municipioService.deletar(id);
+    public Response apagar(@Valid @PathParam("id")Long id) {
+     return  municipioService.deletar(id);
     }
 
     @GET
@@ -68,10 +60,15 @@ public class MunicipioResource {
     return  municipioService.procurarMunicipio(id);
     }
     
-    @GET
-     @Path("/procura todos")
-    public List<Municipio> procuraTodos() {
-    return  municipioService.procurartodos();
+   @GET
+    public List<Municipio> procuraTodos(@QueryParam("page") @DefaultValue("0") int page,@QueryParam("page_size") @DefaultValue("100") int pageSize) { 
+        return municipioService.procurartodos(page, pageSize);
     }
+
+       @GET
+    @Path("/count")
+    public long total() {
+        return municipioService.count();
+    }    
 }
 
