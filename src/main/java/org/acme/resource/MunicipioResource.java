@@ -6,6 +6,7 @@ import org.acme.dto.MunicipioDTO;
 import org.acme.dto.MunicipioResponseDTO;
 import org.acme.model.Estado;
 import org.acme.model.Municipio;
+import org.acme.repository.MunicipioRepository;
 import org.acme.service.MunicipioService;
 import jakarta.ws.rs.core.Response;
 import jakarta.inject.Inject;
@@ -29,8 +30,10 @@ import jakarta.ws.rs.core.MediaType;
 public class MunicipioResource {
     @Inject
     MunicipioService municipioService;
-
+    @Inject
+    MunicipioRepository repository;
     @POST
+    @Path("/")
     public Response incluir(@Valid MunicipioDTO dto) {
        return municipioService.inserir(dto); 
     }
@@ -47,18 +50,12 @@ public class MunicipioResource {
     public Response apagar(@Valid @PathParam("id")Long id) {
      return  municipioService.deletar(id);
     }
-
     @GET
     @Path("/nome/{nome}")
-    @Transactional
-    public MunicipioResponseDTO procurarMunicipio(@PathParam("nome") String nome) {
-     return  municipioService.procurarNome(nome);
-    }
-    @GET
-    @Path("/id/{id}")
-    public MunicipioResponseDTO procurarMunicipioId(@PathParam("id") Long id) {
-    return  municipioService.procurarMunicipio(id);
-    }
+  @Produces(MediaType.APPLICATION_JSON)
+public List<Municipio> procuraMunicipio(@PathParam("nome") String nome) {
+    return repository.find("nome like ?1", "%" + nome + "%").list();
+}
     
    @GET
     public List<Municipio> procuraTodos(@QueryParam("page") @DefaultValue("0") int page,@QueryParam("page_size") @DefaultValue("100") int pageSize) { 
