@@ -2,6 +2,7 @@ package org.acme.resource;
 
 import java.util.List;
 
+import org.acme.dto.EstadoResponseDTO;
 import org.acme.dto.MunicipioDTO;
 import org.acme.dto.MunicipioResponseDTO;
 import org.acme.model.Estado;
@@ -39,9 +40,11 @@ public class MunicipioResource {
     }
 
     @PUT
-    @Path("/{id}")
-    public Response alterar( @PathParam("id") Long id,@Valid MunicipioDTO municipio) {
-        return municipioService.alterar(id,municipio);
+    @Path("/alterar")
+    @Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+    public Response alterar(@Valid MunicipioDTO municipio) {
+        return municipioService.alterar(municipio);
         
     }
 
@@ -61,7 +64,11 @@ public List<Municipio> procuraMunicipio(@PathParam("nome") String nome) {
     public List<Municipio> procuraTodos(@QueryParam("page") @DefaultValue("0") int page,@QueryParam("page_size") @DefaultValue("100") int pageSize) { 
         return municipioService.procurartodos(page, pageSize);
     }
-
+ @GET
+    @Path("/id/{id}")
+    public MunicipioResponseDTO procurarMunicipioId(@PathParam("id") Long id) {
+    return  municipioService.procurarMunicipio(id);
+    }
        @GET
     @Path("/count")
     public long total() {

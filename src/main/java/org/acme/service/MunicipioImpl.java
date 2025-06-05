@@ -27,24 +27,24 @@ public class MunicipioImpl implements MunicipioService {
         Municipio novoMunicipio = new Municipio();
         novoMunicipio.setNome(municipio.getNome());
         novoMunicipio.setSigla(municipio.getSigla());
-        novoMunicipio.setEstadoMunicipio(estadorepository.findById(municipio.getEstadoMunicipio()));
+        novoMunicipio.setEstadoMunicipio(estadorepository.findById(municipio.getEstado().getId()));
         repository.persist(novoMunicipio);
         return Response.status(Response.Status.CREATED)
         .entity(MunicipioResponseDTO.valueOf(novoMunicipio)).build();
     }
 
     @Override
-    public Response alterar(Long id, MunicipioDTO municipioDTO) {
+    public Response alterar( MunicipioDTO municipioDTO) {
         Municipio municipioAlterado = new Municipio();
-        municipioAlterado = repository.findById(id);
+        municipioAlterado = repository.findById(municipioDTO.getidMunicipio());
         if(municipioAlterado.getNome()!= municipioDTO.getNome() && municipioDTO.getNome()!=null){
             municipioAlterado.setNome(municipioDTO.getNome());
         }
         if(municipioAlterado.getSigla()!=municipioDTO.getSigla() && municipioDTO.getSigla()!=null){
             municipioAlterado.setSigla(municipioDTO.getSigla());
         }
-        if(municipioAlterado.getEstadoMunicipio().getId()!=municipioDTO.getEstadoMunicipio() && municipioDTO.getEstadoMunicipio()!=null){
-            municipioAlterado.setEstadoMunicipio(estadorepository.findById(municipioDTO.getEstadoMunicipio()));
+        if(municipioAlterado.getEstadoMunicipio()!=municipioDTO.getEstado() && municipioDTO.getEstado()!=null){
+            municipioAlterado.setEstadoMunicipio(municipioDTO.getEstado());
         }
         return Response.ok().entity(MunicipioResponseDTO.valueOf(municipioAlterado)).build();
     }

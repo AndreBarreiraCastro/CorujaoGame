@@ -11,7 +11,7 @@ import jakarta.ws.rs.core.Response;
 
 public interface MunicipioService {
     Response inserir(MunicipioDTO Municipio);
-    Response alterar(Long id,MunicipioDTO MunicipioDTO);
+    Response alterar(MunicipioDTO MunicipioDTO);
     Response deletar(Long id);
     MunicipioResponseDTO procurarMunicipio(Long id);
     MunicipioResponseDTO procurarNome(String nome);
