@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.acme.dto.UsuarioDTO;
 import org.acme.dto.UsuarioResponseDTO;
+import org.acme.model.Municipio;
 import org.acme.model.Perfil;
 import org.acme.model.Usuario;
 import org.acme.repository.UsuarioRepository;
 
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -19,12 +21,25 @@ public class UsuarioImpl implements UsuarioService{
     @Inject
     UsuarioRepository repository;
 
+
+     @Override
+    public List<Usuario> procurartodos(Integer page, Integer pageSize) {
+        PanacheQuery<Usuario> query = null;
+        if (page == null || pageSize == null)
+            query = repository.findAll();
+        else 
+            query = repository.findAll().page(page, pageSize);
+
+        return query.list();
+    }
      @Override
     @Transactional
     public UsuarioResponseDTO insert(UsuarioDTO dto) {
+       
         if (repository.findByUsername(dto.nome()) != null) {
             throw new ValidationException("nome");
         }
+     
         Usuario novoUsuario = new Usuario();
         novoUsuario.setNome(dto.nome());
         novoUsuario.setCpf(dto.cpf());
@@ -60,10 +75,10 @@ public class UsuarioImpl implements UsuarioService{
              return null;
     }
 
-    @Override
-    public List<UsuarioResponseDTO> findByAll() {
-        return repository.listAll().stream()
-            .map(e -> UsuarioResponseDTO.valueOf(e)).toList();
-    }
+    // @Override
+    // public List<UsuarioResponseDTO> findByAll() {
+    //     return repository.listAll().stream()
+    //         .map(e -> UsuarioResponseDTO.valueOf(e)).toList();
+    // }
     
 }

@@ -9,7 +9,9 @@ import org.acme.dto.UsuarioResponseDTO;
 import org.acme.dto.MunicipioResponseDTO;
 import org.acme.form.UsuarioImageForm;
 import org.acme.model.Estado;
+import org.acme.model.Municipio;
 import org.acme.model.Usuario;
+import org.acme.repository.UsuarioRepository;
 import org.acme.service.MinIOService;
 import org.acme.service.UsuarioService;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
@@ -31,12 +33,15 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+//import jakarta.ws.rs.DefaultValue;
 @Path("/usuarios")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UsuarioResource {
     @Inject
     UsuarioService usuarioService;
+    @Inject
+    UsuarioRepository usuarioRepository;
 
     @Inject
     MinIOService minIOService;
@@ -45,7 +50,12 @@ public class UsuarioResource {
     public UsuarioResponseDTO incluir(@Valid UsuarioDTO dto) {
         return usuarioService.insert(dto);
     }
-
+   @GET
+    @Path("/nome/{nome}")
+  @Produces(MediaType.APPLICATION_JSON)
+public List<Usuario> procuraMunicipio(@PathParam("nome") String nome) {
+    return usuarioRepository.find("nome like ?1", "%" + nome + "%").list();
+}
     @PUT
     @Path("/{id}")
     public void alterar(Long id, UsuarioDTO usuario) {
@@ -91,4 +101,14 @@ public class UsuarioResource {
             .build();
         }
     }
+
+    @GET
+    public List<Usuario> procuraTodos(@QueryParam("page") @jakarta.ws.rs.DefaultValue("0") int page,@QueryParam("page_size") @jakarta.ws.rs.DefaultValue("100") int pageSize) { 
+        return usuarioService.procurartodos(page, pageSize);
+    }
+    @GET
+    @Path("/count")
+    public long total() {
+        return usuarioRepository.count();
+    }  
 }

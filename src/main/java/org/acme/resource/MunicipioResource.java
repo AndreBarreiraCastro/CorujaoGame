@@ -49,7 +49,7 @@ public class MunicipioResource {
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("/apagar/{id}")
     public Response apagar(@Valid @PathParam("id")Long id) {
      return  municipioService.deletar(id);
     }

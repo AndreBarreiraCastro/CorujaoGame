@@ -1,36 +1,41 @@
 package org.acme.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum Perfil {
-ADM(1, "Adm"), 
-    USER(2, "User");
+@Entity
+@Table(name = "perfil")
+public class Perfil {
 
-    private final Integer id;
-    private final String label;
+    @Id
+    private Long id;
 
-    Perfil(Integer id, String label) {
+    private String label;
+
+    // ✅ Construtor vazio — obrigatório para JPA
+    public Perfil() {}
+
+    // ✅ Construtor para facilitar criação
+    public Perfil(Long id, String label) {
         this.id = id;
         this.label = label;
     }
 
-    public Integer getId() {
+    // ✅ Getters e Setters
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getLabel() {
         return label;
     }
 
-    public static Perfil valueOf(Integer id) {
-        if (id == null)
-            return null;
-        for (Perfil perfil : Perfil.values()) {
-            if (perfil.getId().equals(id))
-                return perfil;
-        }
-        throw new IllegalArgumentException("Id inválido");
+    public void setLabel(String label) {
+        this.label = label;
     }
-
 }

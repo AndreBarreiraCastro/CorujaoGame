@@ -121,3 +121,26 @@ INSERT INTO jogo (nome, quantidade, jogoGenero_id) VALUES ('Fortnite', 1200, 13)
 INSERT INTO jogo (nome, quantidade, jogoGenero_id) VALUES ('Super Mario Bros', 700, 14);
 INSERT INTO jogo (nome, quantidade, jogoGenero_id) VALUES ('Minecraft', 1500, 15);
 
+INSERT INTO perfil (id, label) VALUES (1, 'Adm');
+INSERT INTO perfil (id, label) VALUES (2, 'User');
+
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('André', 'Barreira de Castro', '63985139583', '02641728176', 'andrghoul18@gmail', 1);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('Lucas', 'Silva Santos', '11987654321', '12345678901', 'lucas.silva@example.com', 2);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('Maria', 'Oliveira Lima', '21998765432', '23456789012', 'maria.oliveira@example.com', 1);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('João', 'Souza Pereira', '31987654321', '34567890123', 'joao.souza@example.com', 2);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('Ana', 'Costa Almeida', '41987654321', '45678901234', 'ana.costa@example.com', 1);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('Carlos', 'Ferreira Santos', '51987654321', '56789012345', 'carlos.ferreira@example.com', 2);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('Patrícia', 'Rodrigues Souza', '61987654321', '67890123456', 'patricia.rodrigues@example.com', 1);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('Felipe', 'Almeida Costa', '71987654321', '78901234567', 'felipe.almeida@example.com', 2);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('Fernanda', 'Lima Silva', '81987654321', '89012345678', 'fernanda.lima@example.com', 1);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('Gabriel', 'Santos Pereira', '91987654321', '90123456789', 'gabriel.santos@example.com', 2);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('Juliana', 'Souza Oliveira', '11912345678', '11223344556', 'juliana.souza@example.com', 1);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('Ricardo', 'Pereira Lima', '21912345678', '22334455667', 'ricardo.pereira@example.com', 2);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('Tatiane', 'Costa Silva', '31912345678', '33445566778', 'tatiane.costa@example.com', 1);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('Eduardo', 'Almeida Souza', '41912345678', '44556677889', 'eduardo.almeida@example.com', 2);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('Beatriz', 'Ferreira Santos', '51912345678', '55667788990', 'beatriz.ferreira@example.com', 1);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('Vinícius', 'Rodrigues Lima', '61912345678', '66778899001', 'vinicius.rodrigues@example.com', 2);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('Larissa', 'Souza Almeida', '71912345678', '77889900112', 'larissa.souza@example.com', 1);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('Marcelo', 'Oliveira Silva', '81912345678', '88990011223', 'marcelo.oliveira@example.com', 2);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('Aline', 'Pereira Costa', '91912345678', '99001122334', 'aline.pereira@example.com', 1);
+INSERT INTO usuario (nome, sobrenome, telefone, cpf, email, perfilusuario_id) VALUES ('Rafael', 'Santos Almeida', '11987651234', '10111213141', 'rafael.santos@example.com', 2);

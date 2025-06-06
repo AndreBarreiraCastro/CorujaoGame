@@ -2,21 +2,28 @@ package org.acme.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 @Entity
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
+    @Column()
     private String nome;
+    @Column()
     private String sobrenome;
+    @Column()
     private String telefone;
+    @Column()
     private String cpf;
+    @Column()
     private String email;
+    @ManyToOne
     private Perfil perfilUsuario;
 
     public Long getId() {

@@ -8,7 +8,7 @@ public record UsuarioDTO(
      String telefone,
      String cpf,
      String email,
-     Perfil idperfilUsuario
+    Perfil idperfilUsuario
 ) {
 
 }
