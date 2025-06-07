@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.acme.dto.EstadoDTO;
+import org.acme.dto.MunicipioDTO;
 import org.acme.dto.UsuarioDTO;
 import org.acme.dto.UsuarioResponseDTO;
 import org.acme.dto.MunicipioResponseDTO;
@@ -50,17 +51,19 @@ public class UsuarioResource {
     public UsuarioResponseDTO incluir(@Valid UsuarioDTO dto) {
         return usuarioService.insert(dto);
     }
+
+     @GET
+    @Path("/id/{id}")
+    public Usuario procurarUsuarioId(@PathParam("id") Long id) {
+    return  usuarioRepository.findById(id);
+    } 
+
    @GET
     @Path("/nome/{nome}")
   @Produces(MediaType.APPLICATION_JSON)
 public List<Usuario> procuraMunicipio(@PathParam("nome") String nome) {
     return usuarioRepository.find("nome like ?1", "%" + nome + "%").list();
 }
-    @PUT
-    @Path("/{id}")
-    public void alterar(Long id, UsuarioDTO usuario) {
-        usuarioService.update(usuario,id);
-    }
 
     @DELETE
     @Path("/{id}")
@@ -111,4 +114,13 @@ public List<Usuario> procuraMunicipio(@PathParam("nome") String nome) {
     public long total() {
         return usuarioRepository.count();
     }  
+
+        @PUT
+    @Path("/alterar")
+    @Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+    public Response alterar(@Valid UsuarioDTO usuario) {
+        return usuarioService.alterar(usuario);
+        
+    }
 }
