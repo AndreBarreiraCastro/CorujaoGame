@@ -117,6 +117,7 @@ public List<Usuario> procuraMunicipio(@PathParam("nome") String nome) {
 
         @PUT
     @Path("/alterar")
+    @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
     public Response alterar(@Valid UsuarioDTO usuario) {

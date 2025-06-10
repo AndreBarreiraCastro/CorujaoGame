@@ -19,9 +19,9 @@ public class Usuario {
     private String sobrenome;
     @Column()
     private String telefone;
-    @Column()
+    @Column(unique = true, nullable = false)
     private String cpf;
-    @Column()
+    @Column(unique = true, nullable = false)
     private String email;
     @ManyToOne
     private Perfil perfilUsuario;

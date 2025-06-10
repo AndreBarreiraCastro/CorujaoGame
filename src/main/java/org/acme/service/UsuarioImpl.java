@@ -78,35 +78,18 @@ public class UsuarioImpl implements UsuarioService{
     }
 
   @Override
+  @Transactional
 public Response alterar(UsuarioDTO usuarioDTO) {
     Usuario usuario = repository.findById(usuarioDTO.id());
-    if (usuario == null) {
-        return Response.status(Response.Status.NOT_FOUND)
-                       .entity("Usuário não encontrado com ID: " + usuarioDTO.id())
-                       .build();
-    }
 
-    if (usuarioDTO.nome() != null && !usuarioDTO.nome().equals(usuario.getNome())) {
         usuario.setNome(usuarioDTO.nome());
-    }
-
-    if (usuarioDTO.sobrenome() != null && !usuarioDTO.sobrenome().equals(usuario.getSobrenome())) {
         usuario.setSobrenome(usuarioDTO.sobrenome());
-    }
-
-    if (usuarioDTO.telefone() != null && !usuarioDTO.telefone().equals(usuario.getTelefone())) {
         usuario.setTelefone(usuarioDTO.telefone());
-    }
-
-    if (usuarioDTO.cpf() != null && !usuarioDTO.cpf().equals(usuario.getCpf())) {
         usuario.setCpf(usuarioDTO.cpf());
-    }
-
-    if (usuarioDTO.email() != null && !usuarioDTO.email().equals(usuario.getEmail())) {
         usuario.setEmail(usuarioDTO.email());
-    }
 
-    if (usuarioDTO.idperfilUsuario() != null && !usuarioDTO.idperfilUsuario().equals(usuario.getPerfilUsuario())) {
+
+    if (usuarioDTO.idperfilUsuario() != null ) {
         usuario.setPerfilUsuario(usuarioDTO.idperfilUsuario());
     }
 
