@@ -10,7 +10,7 @@ public interface GeneroJogoService {
     GeneroJogoResponseDTO inserir(GeneroJogoDTO genero);
     GeneroJogoResponseDTO alterar(Long id,GeneroJogoDTO generojogoDTO);
     void deletar(Long id);
-    GeneroJogoResponseDTO procurarjogo(Long id);
    GeneroJogoResponseDTO procurarNome(String nome);
-    List<GeneroJogo> procurartodos();
+   List<GeneroJogo> procurartodos(Integer page, Integer pageSize);
+    Long count();
 }
