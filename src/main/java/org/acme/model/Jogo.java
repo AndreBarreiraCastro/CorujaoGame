@@ -1,5 +1,7 @@
 package org.acme.model;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,11 +23,18 @@ public class Jogo {
     @Column(length = 60, nullable = false)
     private String nome;
     @Column(length = 60, nullable = false)
-    private int quantidade;
+    private BigDecimal valorUnitario;
     @JoinColumn
+    private int quantidade;
     @ManyToOne
     private GeneroJogo jogoGenero;
     
+    public BigDecimal getValorUnitario() {
+        return valorUnitario;
+    }
+    public void setValorUnitario(BigDecimal valorUnitario) {
+        this.valorUnitario = valorUnitario;
+    }
     public GeneroJogo getJogoGenero() {
         return jogoGenero;
     }

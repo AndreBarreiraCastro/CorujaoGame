@@ -105,21 +105,22 @@ INSERT INTO generojogo (nome) VALUES ('Plataforma');
 INSERT INTO generojogo (nome) VALUES ('Sandbox');
 
 
-INSERT INTO jogo (nome, quantidade, jogoGenero_id) VALUES ('Call of Duty', 300, 1);
-INSERT INTO jogo (nome, quantidade, jogoGenero_id) VALUES ('The Witcher 3', 250, 2);
-INSERT INTO jogo (nome, quantidade, jogoGenero_id) VALUES ('Devil May Cry', 180, 3);
-INSERT INTO jogo (nome, quantidade, jogoGenero_id) VALUES ('Uncharted', 220, 4);
-INSERT INTO jogo (nome, quantidade, jogoGenero_id) VALUES ('FIFA 24', 500, 5);
-INSERT INTO jogo (nome, quantidade, jogoGenero_id) VALUES ('The Sims 4', 350, 6);
-INSERT INTO jogo (nome, quantidade, jogoGenero_id) VALUES ('Civilization VI', 150, 7);
-INSERT INTO jogo (nome, quantidade, jogoGenero_id) VALUES ('Tetris', 800, 8);
-INSERT INTO jogo (nome, quantidade, jogoGenero_id) VALUES ('Forza Horizon 5', 400, 9);
-INSERT INTO jogo (nome, quantidade, jogoGenero_id) VALUES ('Tekken 7', 270, 10);
-INSERT INTO jogo (nome, quantidade, jogoGenero_id) VALUES ('Resident Evil Village', 320, 11);
-INSERT INTO jogo (nome, quantidade, jogoGenero_id) VALUES ('League of Legends', 1000, 12);
-INSERT INTO jogo (nome, quantidade, jogoGenero_id) VALUES ('Fortnite', 1200, 13);
-INSERT INTO jogo (nome, quantidade, jogoGenero_id) VALUES ('Super Mario Bros', 700, 14);
-INSERT INTO jogo (nome, quantidade, jogoGenero_id) VALUES ('Minecraft', 1500, 15);
+INSERT INTO jogo (nome, quantidade, valorUnitario, jogoGenero_id) VALUES ('Call of Duty', 100, 300.00, 1); -- FPS
+INSERT INTO jogo (nome, quantidade, valorUnitario, jogoGenero_id) VALUES ('The Witcher 3', 50, 250.00, 2); -- RPG
+INSERT INTO jogo (nome, quantidade, valorUnitario, jogoGenero_id) VALUES ('God of War', 70, 280.00, 3); -- Ação
+INSERT INTO jogo (nome, quantidade, valorUnitario, jogoGenero_id) VALUES ('Zelda: Breath of the Wild', 40, 320.00, 4); -- Aventura
+INSERT INTO jogo (nome, quantidade, valorUnitario, jogoGenero_id) VALUES ('FIFA 24', 150, 230.00, 5); -- Esporte
+INSERT INTO jogo (nome, quantidade, valorUnitario, jogoGenero_id) VALUES ('The Sims 4', 60, 200.00, 6); -- Simulação
+INSERT INTO jogo (nome, quantidade, valorUnitario, jogoGenero_id) VALUES ('Age of Empires IV', 35, 270.00, 7); -- Estratégia
+INSERT INTO jogo (nome, quantidade, valorUnitario, jogoGenero_id) VALUES ('Tetris Effect', 80, 150.00, 8); -- Puzzle
+INSERT INTO jogo (nome, quantidade, valorUnitario, jogoGenero_id) VALUES ('Need for Speed Heat', 90, 220.00, 9); -- Corrida
+INSERT INTO jogo (nome, quantidade, valorUnitario, jogoGenero_id) VALUES ('Street Fighter VI', 100, 210.00, 10); -- Luta
+INSERT INTO jogo (nome, quantidade, valorUnitario, jogoGenero_id) VALUES ('Resident Evil Village', 45, 260.00, 11); -- Terror
+INSERT INTO jogo (nome, quantidade, valorUnitario, jogoGenero_id) VALUES ('League of Legends', 200, 0.00, 12); -- MOBA (jogo gratuito)
+INSERT INTO jogo (nome, quantidade, valorUnitario, jogoGenero_id) VALUES ('Fortnite', 300, 0.00, 13); -- Battle Royale (jogo gratuito)
+INSERT INTO jogo (nome, quantidade, valorUnitario, jogoGenero_id) VALUES ('Super Mario Odyssey', 55, 280.00, 14); -- Plataforma
+INSERT INTO jogo (nome, quantidade, valorUnitario, jogoGenero_id) VALUES ('Minecraft', 500, 130.00, 15); -- Sandbox
+
 
 INSERT INTO perfil (id, label) VALUES (1, 'Adm');
 INSERT INTO perfil (id, label) VALUES (2, 'User');

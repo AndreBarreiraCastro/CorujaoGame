@@ -5,9 +5,11 @@ import java.util.List;
 import org.acme.dto.JogoDTO;
 import org.acme.dto.JogoResponseDTO;
 import org.acme.model.Jogo;
+import org.acme.model.Municipio;
 import org.acme.repository.GeneroJogoRepository;
 import org.acme.repository.JogoRepository;
 
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 @ApplicationScoped
@@ -25,6 +27,7 @@ public class JogoImpl implements JogoService {
         novoJogo.setNome(jogo.getNome());
         novoJogo.setQuantidade(jogo.getQuantidade());
         novoJogo.setJogoGenero(generoJogoRepository.findById(jogo.getGeneroJogo()));
+        novoJogo.setValorUnitario(jogo.getvalorUnitiario());
         jogoRepository.persist(novoJogo);
 
         return JogoResponseDTO.valueOf(novoJogo);
@@ -42,6 +45,9 @@ public class JogoImpl implements JogoService {
         }
         if(alteradoJogo.getJogoGenero().getId()!=jogoDTO.getGeneroJogo()){
             alteradoJogo.setJogoGenero(generoJogoRepository.findById(jogoDTO.getGeneroJogo()));
+        }
+        if(alteradoJogo.getValorUnitario()!=jogoDTO.getvalorUnitiario()){
+            alteradoJogo.setValorUnitario(jogoDTO.getvalorUnitiario());
         }
         return JogoResponseDTO.valueOf(alteradoJogo);
     }
@@ -61,10 +67,19 @@ public class JogoImpl implements JogoService {
      return JogoResponseDTO.valueOf(jogoRepository.findJogo(nome));
     }
 
-    @Override
-    public List<Jogo> procurartodos() {
-        return jogoRepository.listAll();
+   @Override
+    public List<Jogo> procurartodos(Integer page, Integer pageSize) {
+        PanacheQuery<Jogo> query = null;
+        if (page == null || pageSize == null)
+            query = jogoRepository.findAll();
+        else 
+            query =jogoRepository.findAll().page(page, pageSize);
+
+        return query.list();
     }
 
-
+ @Override
+ public long count() {
+   return jogoRepository.findAll().count();
+ }
 }
