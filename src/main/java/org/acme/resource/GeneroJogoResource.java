@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.acme.dto.GeneroJogoDTO;
 import org.acme.dto.GeneroJogoResponseDTO;
+import org.acme.dto.MunicipioResponseDTO;
+import org.acme.model.Estado;
 import org.acme.model.GeneroJogo;
 import org.acme.model.Jogo;
 import org.acme.model.Municipio;
+import org.acme.repository.GeneroJogoRepository;
 import org.acme.service.GeneroJogoImpl;
 import org.acme.service.JogoService;
 import jakarta.inject.Inject;
@@ -31,29 +34,32 @@ public class GeneroJogoResource {
     @Inject
     GeneroJogoImpl generoJogoService;
 
+    @Inject
+    GeneroJogoRepository generoJogoRepository;
+
     @POST
     public GeneroJogoResponseDTO incluir(@Valid GeneroJogoDTO dto) {
         return generoJogoService.inserir(dto);
     }
 
     @PUT
-    @Path("/{id}")
-    public void alterar(@PathParam("id") Long id, GeneroJogoDTO jogoDTO) {
-        generoJogoService.alterar(id,jogoDTO);
+    @Path("/alterar")
+    public void alterar( GeneroJogoDTO jogoDTO) {
+        generoJogoService.alterar(jogoDTO);
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("/apagar/{id}")
     public void apagar(@PathParam("id")Long id) {
        generoJogoService.deletar(id);
     }
 
-    @GET
-    @Path("/nome/{nome}")
-    @Transactional
-    public GeneroJogoResponseDTO procurarGeneroJogo(@PathParam("nome") String nome) {
-     return  generoJogoService.procurarNome(nome);
-    }
+  @GET
+@Path("/buscar/{nome}")
+@Produces(MediaType.APPLICATION_JSON)
+public List<GeneroJogo> buscarPorNome(@PathParam("nome") String nome) {
+    return generoJogoRepository.find("nome like ?1", "%" + nome + "%").list();
+}
     // @GET
     // @Path("/id/{id}")
     // public GeneroJogoResponseDTO procuraGeneroJogoId(@PathParam("id") Long id) {
@@ -70,5 +76,11 @@ public class GeneroJogoResource {
     public long total() {
         return generoJogoService.count();
     } 
+
+     @GET
+    @Path("/id/{id}")
+    public GeneroJogo procurarGeneroJogoId(@PathParam("id") Long id) {
+    return  generoJogoRepository.findById(id);
+    }
 }
 

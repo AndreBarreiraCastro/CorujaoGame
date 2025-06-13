@@ -32,8 +32,8 @@ public class GeneroJogoImpl implements GeneroJogoService {
     }
 
     @Override
-    public GeneroJogoResponseDTO alterar(Long id, GeneroJogoDTO generojogoDTO) {
-        GeneroJogo alteradGeneroJogo = generoJogoRepository.findById(id);
+    public GeneroJogoResponseDTO alterar(GeneroJogoDTO generojogoDTO) {
+        GeneroJogo alteradGeneroJogo = generoJogoRepository.findById(generojogoDTO.getId());
         if(alteradGeneroJogo.getNome()!=generojogoDTO.getNome()){
             alteradGeneroJogo.setNome(generojogoDTO.getNome());
         }

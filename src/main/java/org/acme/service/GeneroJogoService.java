@@ -8,7 +8,7 @@ import org.acme.model.GeneroJogo;
 
 public interface GeneroJogoService {
     GeneroJogoResponseDTO inserir(GeneroJogoDTO genero);
-    GeneroJogoResponseDTO alterar(Long id,GeneroJogoDTO generojogoDTO);
+    GeneroJogoResponseDTO alterar(GeneroJogoDTO generojogoDTO);
     void deletar(Long id);
    GeneroJogoResponseDTO procurarNome(String nome);
    List<GeneroJogo> procurartodos(Integer page, Integer pageSize);
