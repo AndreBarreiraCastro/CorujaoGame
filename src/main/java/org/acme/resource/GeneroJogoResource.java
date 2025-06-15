@@ -70,6 +70,11 @@ public List<GeneroJogo> buscarPorNome(@PathParam("nome") String nome) {
     public List<GeneroJogo> procuraTodos(@QueryParam("page") @DefaultValue("0") int page,@QueryParam("page_size") @DefaultValue("100") int pageSize) { 
         return generoJogoService.procurartodos(page, pageSize);
     }
+     @GET
+     @Path("/todos")
+    public List<GeneroJogo> procuraTodos() { 
+        return generoJogoRepository.listAll();
+    }
 
         @GET
     @Path("/count")

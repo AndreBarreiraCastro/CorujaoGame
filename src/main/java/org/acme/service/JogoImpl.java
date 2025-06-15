@@ -26,7 +26,7 @@ public class JogoImpl implements JogoService {
         Jogo novoJogo = new Jogo();
         novoJogo.setNome(jogo.getNome());
         novoJogo.setQuantidade(jogo.getQuantidade());
-        novoJogo.setJogoGenero(generoJogoRepository.findById(jogo.getGeneroJogo()));
+        novoJogo.setJogoGenero(jogo.getGeneroJogo());
         novoJogo.setValorUnitario(jogo.getvalorUnitiario());
         jogoRepository.persist(novoJogo);
 
@@ -34,8 +34,8 @@ public class JogoImpl implements JogoService {
     }
 
     @Override
-    public JogoResponseDTO alterar(Long id, JogoDTO jogoDTO) {
-        Jogo alteradoJogo = jogoRepository.findById(id);
+    public JogoResponseDTO alterar( JogoDTO jogoDTO) {
+        Jogo alteradoJogo = jogoRepository.findById(jogoDTO.getId());
         
         if(alteradoJogo.getNome()!=jogoDTO.getNome()){
             alteradoJogo.setNome(jogoDTO.getNome());
@@ -43,8 +43,8 @@ public class JogoImpl implements JogoService {
         if(alteradoJogo.getQuantidade()!=jogoDTO.getQuantidade()){
             alteradoJogo.setQuantidade(jogoDTO.getQuantidade());
         }
-        if(alteradoJogo.getJogoGenero().getId()!=jogoDTO.getGeneroJogo()){
-            alteradoJogo.setJogoGenero(generoJogoRepository.findById(jogoDTO.getGeneroJogo()));
+        if(alteradoJogo.getJogoGenero()!=jogoDTO.getGeneroJogo()){
+            alteradoJogo.setJogoGenero(jogoDTO.getGeneroJogo());
         }
         if(alteradoJogo.getValorUnitario()!=jogoDTO.getvalorUnitiario()){
             alteradoJogo.setValorUnitario(jogoDTO.getvalorUnitiario());
@@ -71,9 +71,9 @@ public class JogoImpl implements JogoService {
     public List<Jogo> procurartodos(Integer page, Integer pageSize) {
         PanacheQuery<Jogo> query = null;
         if (page == null || pageSize == null)
-            query = jogoRepository.findAll();
+            query = jogoRepository.find("ORDER BY id");
         else 
-            query =jogoRepository.findAll().page(page, pageSize);
+            query =jogoRepository.find("ORDER BY id").page(page, pageSize);
 
         return query.list();
     }

@@ -6,6 +6,7 @@ import org.acme.dto.JogoDTO;
 import org.acme.dto.JogoResponseDTO;
 import org.acme.model.Jogo;
 import org.acme.model.Municipio;
+import org.acme.repository.JogoRepository;
 import org.acme.service.JogoService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -28,16 +29,19 @@ import jakarta.ws.rs.core.MediaType;
 public class JogoResource {
     @Inject
     JogoService jogoService;
+    @Inject 
+    JogoRepository jogoRepository;
 
     @POST
+    @Path("/inserir")
     public JogoResponseDTO incluir(@Valid JogoDTO dto) {
         return jogoService.inserir(dto);
     }
 
     @PUT
-    @Path("/{id}")
-    public void alterar(@PathParam("id") Long id, JogoDTO jogoDTO) {
-        jogoService.alterar(id,jogoDTO);
+    @Path("/alterar")
+    public void alterar(JogoDTO jogoDTO) {
+        jogoService.alterar(jogoDTO);
     }
 
     @DELETE
@@ -47,11 +51,12 @@ public class JogoResource {
     }
 
     @GET
-    @Path("/nome/{nome}")
+    @Path("/buscar/{nome}")
     @Transactional
-    public JogoResponseDTO procurarJogo(@PathParam("nome") String nome) {
-     return  jogoService.procurarNome(nome);
-    }
+     @Produces(MediaType.APPLICATION_JSON)
+public List<Jogo> procuraJogo(@PathParam("nome") String nome) {
+    return jogoRepository.find("nome like ?1", "%" + nome + "%").list();
+}
     @GET
     @Path("/id/{id}")
     public JogoResponseDTO procuraJogoId(@PathParam("id") Long id) {

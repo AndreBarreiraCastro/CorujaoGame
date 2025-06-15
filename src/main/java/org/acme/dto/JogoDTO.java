@@ -2,6 +2,8 @@ package org.acme.dto;
 
 import java.math.BigDecimal;
 
+import org.acme.model.GeneroJogo;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -15,13 +17,14 @@ public final class JogoDTO {
     
     @NotNull(message = "Genero do jogo nao pode ser nulo")
     @Size(max = 2,message= "Ultrapassou o tamanho para o campo quantidade")
-    private final Long generoJogo;
+    private final GeneroJogo generoJogo;
     @NotNull(message = "Valor Unitario nao pode ser nulo")
     @Size(max = 2,message= "Ultrapassou o tamanho para o campo quantidade")
     private final BigDecimal valorUnitario;
+    
     private final Long id;
     
-    public JogoDTO(String nome,int quantidade,Long generoJogo,Long id,BigDecimal valorUnitario) {
+    public JogoDTO(String nome,int quantidade,GeneroJogo generoJogo,Long id,BigDecimal valorUnitario) {
         this.nome = nome;
         this.quantidade = quantidade;
         this.generoJogo = generoJogo;
@@ -37,7 +40,10 @@ public final class JogoDTO {
     public int getQuantidade() {
         return quantidade;
     }
-    public Long getGeneroJogo() {
+    public GeneroJogo getGeneroJogo() {
         return generoJogo;
+    }
+    public Long getId() {
+        return id;
     }
 }

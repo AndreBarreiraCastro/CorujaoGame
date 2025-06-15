@@ -9,7 +9,7 @@ import org.acme.model.Municipio;
 
 public interface JogoService {
     JogoResponseDTO inserir(JogoDTO jogo);
-    JogoResponseDTO alterar(Long id,JogoDTO jogoDTO);
+    JogoResponseDTO alterar(JogoDTO jogoDTO);
     void deletar(Long id);
     JogoResponseDTO procurarjogo(Long id);
     JogoResponseDTO procurarNome(String nome);

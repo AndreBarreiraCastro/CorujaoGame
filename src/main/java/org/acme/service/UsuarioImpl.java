@@ -28,9 +28,9 @@ public class UsuarioImpl implements UsuarioService{
     public List<Usuario> procurartodos(Integer page, Integer pageSize) {
         PanacheQuery<Usuario> query = null;
         if (page == null || pageSize == null)
-            query = repository.findAll();
+            query = repository.find("ORDER BY id");
         else 
-            query = repository.findAll().page(page, pageSize);
+            query = repository.find("ORDER BY id").page(page, pageSize);
 
         return query.list();
     }

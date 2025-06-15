@@ -60,9 +60,9 @@ public class GeneroJogoImpl implements GeneroJogoService {
     public List<GeneroJogo> procurartodos(Integer page, Integer pageSize) {
         PanacheQuery<GeneroJogo> query = null;
         if (page == null || pageSize == null)
-            query = generoJogoRepository.findAll();
+            query = generoJogoRepository.find("ORDER BY id");
         else 
-            query = generoJogoRepository.findAll().page(page, pageSize);
+            query = generoJogoRepository.find("ORDER BY id").page(page, pageSize);
 
         return query.list();
     }
