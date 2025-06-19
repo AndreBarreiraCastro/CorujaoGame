@@ -20,11 +20,11 @@ public final class JogoDTO {
     private final GeneroJogo generoJogo;
     @NotNull(message = "Valor Unitario nao pode ser nulo")
     @Size(max = 2,message= "Ultrapassou o tamanho para o campo quantidade")
-    private final BigDecimal valorUnitario;
+    private final Double valorUnitario;
     
     private final Long id;
     
-    public JogoDTO(String nome,int quantidade,GeneroJogo generoJogo,Long id,BigDecimal valorUnitario) {
+    public JogoDTO(String nome,int quantidade,GeneroJogo generoJogo,Long id,Double valorUnitario) {
         this.nome = nome;
         this.quantidade = quantidade;
         this.generoJogo = generoJogo;
@@ -34,7 +34,7 @@ public final class JogoDTO {
     public String getNome() {
         return nome;
     }
-    public BigDecimal getvalorUnitiario() {
+    public Double getvalorUnitiario() {
         return valorUnitario;
     }
     public int getQuantidade() {

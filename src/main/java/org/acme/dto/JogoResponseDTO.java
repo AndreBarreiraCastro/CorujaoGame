@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import org.acme.model.GeneroJogo;
 import org.acme.model.Jogo;
 
-public record JogoResponseDTO(Long id,String nome,int quantidade,GeneroJogo generoJogo,BigDecimal valorUnitario) {
+public record JogoResponseDTO(Long id,String nome,int quantidade,GeneroJogo generoJogo,Double valorUnitario) {
 
 public static JogoResponseDTO valueOf(Jogo jogo) {
         return new JogoResponseDTO (

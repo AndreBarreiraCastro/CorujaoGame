@@ -23,16 +23,16 @@ public class Jogo {
     @Column(length = 60, nullable = false)
     private String nome;
     @Column(length = 60, nullable = false)
-    private BigDecimal valorUnitario;
+    private Double valorUnitario;
     @JoinColumn
     private int quantidade;
     @ManyToOne
     private GeneroJogo jogoGenero;
     
-    public BigDecimal getValorUnitario() {
+    public Double getValorUnitario() {
         return valorUnitario;
     }
-    public void setValorUnitario(BigDecimal valorUnitario) {
+    public void setValorUnitario(Double valorUnitario) {
         this.valorUnitario = valorUnitario;
     }
     public GeneroJogo getJogoGenero() {
