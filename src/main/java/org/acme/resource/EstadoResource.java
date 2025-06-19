@@ -9,6 +9,7 @@ import org.acme.repository.EstadoRepository;
 import org.acme.service.Estadoservice;
 
 import io.minio.credentials.AssumeRoleBaseProvider.Response;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -24,6 +25,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.DefaultValue;
 @Path("/estados")
+@RolesAllowed("admin")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Transactional
@@ -34,18 +36,21 @@ public class EstadoResource {
     EstadoRepository repository;
 
     @POST
+    @RolesAllowed("admin")
     public EstadoResponseDTO incluir(@Valid EstadoDTO dto) {
         return estadoService.inserir(dto);
     }
 
     @PUT
     @Path("/alterar/{id}")
+    @RolesAllowed("admin")
     public void alterar(@PathParam("id") Long id,Estado estado) {
         estadoService.alterar(id,estado);
     }
 
     @DELETE
     @Path("/apagar/{id}")
+    @RolesAllowed("admin")
     public void apagar(@PathParam("id")Long id) {
        estadoService.deletar(id);
     }
@@ -58,15 +63,18 @@ public class EstadoResource {
     // }
     @GET
     @Path("/id/{id}")
+    @RolesAllowed("admin")
     public EstadoResponseDTO procurarEstadoId(@PathParam("id") Long id) {
     return  estadoService.procurarEstado(id);
     }
     
     @GET
+    @RolesAllowed("admin")
     public List<Estado> procuraTodos(@QueryParam("page") @DefaultValue("0") int page,@QueryParam("page_size") @DefaultValue("100") int pageSize) { 
         return estadoService.procurartodos(page, pageSize);
     }
 @GET
+@RolesAllowed("admin")
 @Path("/buscar/{nome}")
 @Produces(MediaType.APPLICATION_JSON)
 public List<Estado> buscarPorNome(@PathParam("nome") String nome) {
@@ -75,6 +83,7 @@ public List<Estado> buscarPorNome(@PathParam("nome") String nome) {
 
 @GET
 @Path("/count")
+@RolesAllowed("admin")
 public Long countEstados() {
     return estadoService.count();
 }

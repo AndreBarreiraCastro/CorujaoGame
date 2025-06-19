@@ -1,6 +1,7 @@
 package org.acme.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.acme.dto.UsuarioResponseDTO;
 import org.acme.dto.UsuarioDTO;
@@ -23,6 +24,9 @@ public class UsuarioImpl implements UsuarioService{
     @Inject
     UsuarioRepository repository;
 
+    @Inject
+    Hashservice hashService;
+
 
      @Override
     public List<Usuario> procurartodos(Integer page, Integer pageSize) {
@@ -34,26 +38,42 @@ public class UsuarioImpl implements UsuarioService{
 
         return query.list();
     }
-     @Override
-    @Transactional
-    public UsuarioResponseDTO insert(UsuarioDTO dto) {
-       
-        if (repository.findByUsername(dto.nome()) != null) {
-            throw new ValidationException("nome");
-        }
-     
-        Usuario novoUsuario = new Usuario();
-        novoUsuario.setNome(dto.nome());
-        novoUsuario.setCpf(dto.cpf());
-        novoUsuario.setSobrenome(dto.sobrenome());
-        novoUsuario.setTelefone(dto.telefone());
-        novoUsuario.setEmail(dto.email());
-        novoUsuario.setPerfilUsuario(dto.idperfilUsuario());
+@Override
+@Transactional
+public UsuarioResponseDTO insert(UsuarioDTO dto) {
 
-        repository.persist(novoUsuario);
-
-        return UsuarioResponseDTO.valueOf(novoUsuario);
+    if (repository.findByUsername(dto.nome()) != null) {
+        throw new ValidationException("nome");
     }
+
+    // Gerar ou criptografar senha
+    String senhaLegivel = dto.senha();
+    if (senhaLegivel == null || senhaLegivel.trim().isEmpty()) {
+        // Gera uma senha aleatória simples (ex: UUID)
+        senhaLegivel = UUID.randomUUID().toString().substring(0, 8); // 8 caracteres
+    }
+
+    String senhaHash;
+    try {
+        senhaHash = hashService.getHashSenha(senhaLegivel); // Usa o método que você já criou
+    } catch (Exception e) {
+        throw new RuntimeException("Erro ao gerar hash da senha", e);
+    }
+
+    Usuario novoUsuario = new Usuario();
+    novoUsuario.setNome(dto.nome());
+    novoUsuario.setCpf(dto.cpf());
+    novoUsuario.setSobrenome(dto.sobrenome());
+    novoUsuario.setTelefone(dto.telefone());
+    novoUsuario.setEmail(dto.email());
+    novoUsuario.setPerfilUsuario(dto.idperfilUsuario());
+    novoUsuario.setUsuariosenha(senhaHash); // Salva senha criptografada
+
+    repository.persist(novoUsuario);
+
+    return UsuarioResponseDTO.valueOf(novoUsuario);
+}
+
 
     @Override
     @Transactional
@@ -104,5 +124,22 @@ public Response alterar(UsuarioDTO usuarioDTO) {
     //     return repository.listAll().stream()
     //         .map(e -> UsuarioResponseDTO.valueOf(e)).toList();
     // }
+
+
+
+     @Override
+    public UsuarioResponseDTO findByUsernameAndSenha(String username, String senha) {
+        return UsuarioResponseDTO.valueOf(
+                repository.findByUsernameAndSenha(username, senha)
+            );
+
+    }
+
+    @Override
+    public UsuarioResponseDTO findByUsername(String username) {
+        return UsuarioResponseDTO.valueOf(
+            repository.findByUsername(username)
+        );
+    }
     
 }

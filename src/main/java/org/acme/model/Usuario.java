@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 @Entity
 public class Usuario {
 
@@ -25,6 +26,8 @@ public class Usuario {
     private String email;
     @ManyToOne
     private Perfil perfilUsuario;
+   @Column()
+    private String usuariosenha;
 
     public Long getId() {
         return id;
@@ -67,6 +70,12 @@ public class Usuario {
     }
     public void setPerfilUsuario(Perfil perfilUsuario) {
         this.perfilUsuario = perfilUsuario;
+    }
+    public String getUsuariosenha() {
+        return usuariosenha;
+    }
+    public void setUsuariosenha(String usuariosenha) {
+        this.usuariosenha = usuariosenha;
     }
 
 

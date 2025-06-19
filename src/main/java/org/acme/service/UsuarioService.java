@@ -25,4 +25,7 @@ public interface UsuarioService {
     List<Usuario> procurartodos(Integer page, Integer pageSize);
 
     Response alterar(UsuarioDTO usuarioDTO);
+
+    UsuarioResponseDTO findByUsernameAndSenha(String username, String senha);
+    UsuarioResponseDTO findByUsername(String username);
 }
