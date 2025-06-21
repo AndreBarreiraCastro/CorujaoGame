@@ -42,7 +42,7 @@ public class UsuarioImpl implements UsuarioService{
 @Transactional
 public UsuarioResponseDTO insert(UsuarioDTO dto) {
 
-    if (repository.findByUsername(dto.nome()) != null) {
+    if (dto.nome() == null) {
         throw new ValidationException("nome");
     }
 
@@ -128,6 +128,7 @@ public Response alterar(UsuarioDTO usuarioDTO) {
 
 
      @Override
+     @Transactional
     public UsuarioResponseDTO findByUsernameAndSenha(String username, String senha) {
         return UsuarioResponseDTO.valueOf(
                 repository.findByUsernameAndSenha(username, senha)

@@ -17,7 +17,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
-@Path("auth")
+@Path("/auth")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class AuthResource {
@@ -33,25 +33,20 @@ public class AuthResource {
     @Inject
     UsuarioRepository usuarioRepository;
 
-    @POST
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response login(AuthDTO dto) {
-        String hash = null;
-        try {
-            hash = hashService.getHashSenha(dto.getSenha());
-            System.out.println(hash);
-        } catch (Exception e) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-        }
+       @POST
+    public Response login(AuthDTO authDTO) {
+        String hash = hashService.getHashSenha(authDTO.getSenha());
 
-        UsuarioResponseDTO usuario = usuarioService.findByUsernameAndSenha(dto.getUsername(), hash);
+        UsuarioResponseDTO usuario = usuarioService.findByUsernameAndSenha(authDTO.getUsername(), hash);
 
-        if (usuario == null) 
-          return Response.noContent().build();
+        if (usuario == null || usuario.idperfilUsuario().getId() ==2 ) {
+            return Response.status(Status.NOT_FOUND)
+                .entity("Usuario não encontrado").build();
+        } 
+        return Response.ok(usuario)
+            .header("Authorization", jwtService.generateJwt(usuario))
+            .build();
         
-        String token = jwtService.generateJwt(usuario);
-        return Response.ok().header("Authorization", token).build();
-            
     }
     
 }

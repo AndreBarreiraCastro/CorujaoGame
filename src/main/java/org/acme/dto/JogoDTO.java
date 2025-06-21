@@ -1,8 +1,12 @@
 package org.acme.dto;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.acme.model.GeneroJogo;
+
+
+import com.google.common.base.Strings;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -23,14 +27,26 @@ public final class JogoDTO {
     private final Double valorUnitario;
     
     private final Long id;
+
+  private String imagens;
     
-    public JogoDTO(String nome,int quantidade,GeneroJogo generoJogo,Long id,Double valorUnitario) {
+    public JogoDTO(String nome,int quantidade,GeneroJogo generoJogo,Long id,Double valorUnitario,String imagemJogo) {
         this.nome = nome;
         this.quantidade = quantidade;
         this.generoJogo = generoJogo;
         this.valorUnitario = valorUnitario;
         this.id = id;
+        this.imagens = imagemJogo;
     }
+  
+
+
+
+    
+
+
+
+
     public String getNome() {
         return nome;
     }

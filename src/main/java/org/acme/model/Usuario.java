@@ -29,6 +29,15 @@ public class Usuario {
    @Column()
     private String usuariosenha;
 
+    @Column(name = "imagem_perfil")
+private String imagemPerfil;
+
+    public String getImagemPerfil() {
+        return imagemPerfil;
+    }
+    public void setImagemPerfil(String imagemPerfil) {
+        this.imagemPerfil = imagemPerfil;
+    }
     public Long getId() {
         return id;
     }

@@ -11,7 +11,7 @@ import org.acme.model.Usuario;
 import jakarta.ws.rs.core.Response;
 
 public interface UsuarioService {
-    public UsuarioResponseDTO insert(UsuarioDTO dto);
+    public UsuarioResponseDTO insert(UsuarioDTO dto );
 
     public UsuarioResponseDTO update(UsuarioDTO dto);
 

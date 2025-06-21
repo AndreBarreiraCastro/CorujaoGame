@@ -15,6 +15,18 @@ public class UsuarioImageForm {
     @PartType("application/octet-stream")
     private byte[] imagem;
 
+    @FormParam("idUsuario")
+    @PartType(MediaType.TEXT_PLAIN)
+    private Long idUsuario;
+
+    public Long getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
     public String getNomeImagem() {
         return nomeImagem;
     }

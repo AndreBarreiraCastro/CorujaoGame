@@ -1,7 +1,10 @@
 package org.acme.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,7 +31,11 @@ public class Jogo {
     private int quantidade;
     @ManyToOne
     private GeneroJogo jogoGenero;
-    
+   
+@Column() // cria a FK em ImagemJogo
+     private String imagens;
+
+  
     public Double getValorUnitario() {
         return valorUnitario;
     }
@@ -59,6 +66,12 @@ public class Jogo {
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
-    
+    public String getImagens() {
+        return imagens;
+    }
+    public void setImagens(String imagens) {
+        this.imagens = imagens;
+    }
+   
     
 }

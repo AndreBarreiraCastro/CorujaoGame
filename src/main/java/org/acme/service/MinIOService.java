@@ -38,12 +38,13 @@ public class MinIOService {
     try (InputStream input = new ByteArrayInputStream(imagem)) {
         minioClient.putObject(
             PutObjectArgs.builder()
-                .bucket("dowloadimagens")
+                .bucket("imagens")
                 .object(nomeImagem)
                 .stream(input, imagem.length, -1)
                 .contentType("application/octet-stream")
                 .build()
         );
+        System.out.println("Imagem salva com sucesso: " + nomeImagem);
         return nomeImagem;
     } catch (Exception e) {
         e.printStackTrace(); // ← vai mostrar o erro real no terminal
@@ -55,7 +56,7 @@ public class MinIOService {
 public byte[] downloadImagem(String nomeImagem) throws IOException {
     try (InputStream inputStream = minioClient.getObject(
             GetObjectArgs.builder()
-                .bucket("dowloadimagens")
+                .bucket("imagens")
                 .object(nomeImagem)
                 .build()
         )) {

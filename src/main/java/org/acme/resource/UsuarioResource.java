@@ -20,6 +20,7 @@ import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import io.vertx.core.cli.annotations.DefaultValue;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -36,6 +37,7 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 //import jakarta.ws.rs.DefaultValue;
 @Path("/usuarios")
+@RolesAllowed({"admin", "user"})
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UsuarioResource {
@@ -48,6 +50,7 @@ public class UsuarioResource {
     MinIOService minIOService;
 
     @POST
+    @Transactional
     public UsuarioResponseDTO incluir(@Valid UsuarioDTO dto) {
         return usuarioService.insert(dto);
     }
@@ -74,7 +77,7 @@ public List<Usuario> procuraMunicipio(@PathParam("nome") String nome) {
 
 
     @GET
-    @Path("/faixa/imagem/{nome}")
+    @Path("/imagem/{nome}")
     @Produces("image/png") // ou image/jpeg, conforme necessário
     public Response downloadImagem(@PathParam("nome") String nome) {
         try {
@@ -86,24 +89,39 @@ public List<Usuario> procuraMunicipio(@PathParam("nome") String nome) {
                            .build();
         }
     }
-    @PATCH
-    @Path("/image/upload")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response salvarImagem(@MultipartForm UsuarioImageForm form) {
-        try {
-            // Converte o InputStream do formulário em byte[]
-            byte[] imagemBytes = form.getImagem();
-    
-            // Chama o serviço passando os dados
-           minIOService.salvarImagem(imagemBytes, form.getNomeImagem());
-    
-            return Response.noContent().build();
-        } catch (IOException e) {
-            return Response.status(Status.CONFLICT)
-            .entity("Erro ao salvar imagem: " + e.getMessage())
-            .build();
-        }
+   @PATCH
+@Path("/image/upload")
+@Consumes(MediaType.MULTIPART_FORM_DATA)
+@Transactional
+public Response salvarImagem(@MultipartForm UsuarioImageForm form) {
+    // 1. Buscar usuário pelo ID
+    Usuario usuario = usuarioRepository.findById(form.getIdUsuario());
+    if (usuario == null) {
+        return Response.status(Response.Status.NOT_FOUND)
+                .entity("Usuário não encontrado com ID: " + form.getIdUsuario())
+                .build();
     }
+
+    try {
+        // 2. Salvar no MinIO
+        byte[] imagemBytes = form.getImagem();
+        String nomeImagem = form.getNomeImagem();
+        minIOService.salvarImagem(imagemBytes, nomeImagem);
+
+        // 3. Atualizar usuário com nome da imagem
+        usuario.setImagemPerfil(nomeImagem);
+        usuarioRepository.persist(usuario);
+
+        return Response.ok().entity("Imagem salva e vinculada ao usuário com sucesso.").build();
+    } catch (Exception e) {
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity("Erro ao processar a imagem: " + e.getMessage())
+                .build();
+    }
+}
+
+
+
 
     @GET
     public List<Usuario> procuraTodos(@QueryParam("page") @jakarta.ws.rs.DefaultValue("0") int page,@QueryParam("page_size") @jakarta.ws.rs.DefaultValue("100") int pageSize) { 
